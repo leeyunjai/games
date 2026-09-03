@@ -73,14 +73,23 @@
   z-index: -1;
   transition: opacity 0.16s;
 }
-.game-card:hover,
 .game-card:focus-visible {
   transform: translateY(-3px);
   border-color: var(--card-accent);
   background: var(--g-surface-strong);
   box-shadow: var(--g-shadow);
 }
-.game-card:hover::before { opacity: 0.3; }
+.game-card:active { transform: scale(0.99); }
+
+@media (hover: hover) and (pointer: fine) {
+  .game-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--card-accent);
+    background: var(--g-surface-strong);
+    box-shadow: var(--g-shadow);
+  }
+  .game-card:hover::before { opacity: 0.3; }
+  }
 
 .card-top { display: flex; align-items: center; gap: 12px; }
 .card-icon {
@@ -189,4 +198,3 @@
   color: var(--g-muted);
   transition: color 0.14s, border-color 0.14s;
 }
-.hub-reset:hover { color: #ff8080; border-color: #ff8080; }

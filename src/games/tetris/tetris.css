@@ -136,7 +136,6 @@
   color: #06231d;
   background: #22c1a4;
 }
-.t-btn:hover { filter: brightness(1.08); }
 
 /* ── 터치 조작: 엄지가 닿는 아래쪽 ── */
 .t-touch {
@@ -184,4 +183,8 @@
   .queue-list { flex-direction: column; }
   .queue-list > * { width: 100%; }
   .t-touch { max-width: 460px; margin: 0 auto; width: 100%; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .t-btn:hover { filter: brightness(1.08); }
 }
