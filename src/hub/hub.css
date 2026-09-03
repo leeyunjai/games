@@ -1,0 +1,192 @@
+.hub {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(1100px 520px at 12% -8%, rgba(122, 162, 255, 0.16), transparent 60%),
+    radial-gradient(900px 520px at 92% 0%, rgba(224, 90, 74, 0.13), transparent 55%),
+    var(--g-bg);
+}
+
+.hub-header {
+  padding: 28px 16px 20px;
+  max-width: 1080px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+@media (min-width: 720px) {
+  .hub-header { padding: 44px 20px 26px; align-items: flex-end; }
+}
+
+.hub-brand h1 {
+  margin: 0;
+  font-size: clamp(2.1rem, 6vw, 3.1rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.hub-brand h1 span { color: var(--g-accent); }
+.hub-brand p {
+  margin: 10px 0 0;
+  color: var(--g-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.hub-brand { flex: 1; min-width: 0; }
+.hub-header-actions { margin-left: auto; display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+
+.hub-grid {
+  flex: 1;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 6px 16px 32px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+  gap: 14px;
+  align-content: start;
+}
+
+.game-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 18px 16px;
+  border-radius: var(--g-radius-lg);
+  background: var(--g-surface);
+  border: 1px solid var(--g-border);
+  transition: transform 0.16s ease, border-color 0.16s, background 0.16s, box-shadow 0.16s;
+  overflow: hidden;
+  isolation: isolate;
+}
+.game-card::before {
+  content: '';
+  position: absolute;
+  inset: -40% 55% 40% -20%;
+  background: radial-gradient(closest-side, var(--card-accent), transparent);
+  opacity: 0.16;
+  z-index: -1;
+  transition: opacity 0.16s;
+}
+.game-card:hover,
+.game-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--card-accent);
+  background: var(--g-surface-strong);
+  box-shadow: var(--g-shadow);
+}
+.game-card:hover::before { opacity: 0.3; }
+
+.card-top { display: flex; align-items: center; gap: 12px; }
+.card-icon {
+  width: 46px; height: 46px;
+  display: grid; place-items: center;
+  border-radius: 14px;
+  font-size: 1.5rem;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--g-border);
+  flex-shrink: 0;
+}
+.card-heading { min-width: 0; }
+.card-heading h2 {
+  margin: 0;
+  font-size: 1.12rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.card-heading .card-sub {
+  display: block;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  color: var(--g-muted);
+  margin-top: 3px;
+}
+.card-key {
+  margin-left: auto;
+  align-self: flex-start;
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: var(--g-muted);
+  border: 1px solid var(--g-border);
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+
+.card-desc {
+  margin: 0;
+  font-size: 0.83rem;
+  line-height: 1.55;
+  color: #c4ccdb;
+  min-height: 2.6em;
+}
+
+.card-lore {
+  margin: 0;
+  font-size: 0.74rem;
+  font-style: italic;
+  line-height: 1.5;
+  color: #8791a6;
+}
+
+.card-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.card-tag {
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: var(--g-muted);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--g-border);
+  border-radius: 999px;
+  padding: 3px 9px;
+}
+
+.card-foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+  padding-top: 10px;
+  border-top: 1px solid var(--g-border);
+  font-size: 0.72rem;
+  color: var(--g-muted);
+}
+.card-badge {
+  font-weight: 800;
+  color: #0d1117;
+  background: var(--card-accent);
+  border-radius: 999px;
+  padding: 3px 9px;
+}
+.card-record { color: #d5b45a; font-weight: 700; }
+.card-controls { width: 100%; opacity: 0.7; font-size: 0.68rem; }
+
+.hub-footer {
+  max-width: 1080px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 16px calc(32px + env(safe-area-inset-bottom));
+  color: var(--g-muted);
+  font-size: 0.74rem;
+  line-height: 1.7;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.hub-reset {
+  margin-left: auto;
+  border: 1px solid var(--g-border);
+  border-radius: 999px;
+  min-height: 44px;
+  padding: 0 16px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--g-muted);
+  transition: color 0.14s, border-color 0.14s;
+}
+.hub-reset:hover { color: #ff8080; border-color: #ff8080; }

@@ -2,14 +2,18 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <meta name="theme-color" content="#1a1209" />
-  <title>오목 Gomoku</title>
-  <meta name="description" content="브라우저에서 바로 즐기는 오목 — AI 대전 · 2인 로컬 · 서버 없음" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%231a1a1a'/><circle cx='50' cy='50' r='42' fill='%23333'/></svg>" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0d12" />
+  <title>games — 브라우저 게임 모음</title>
+  <meta name="description" content="오목 · 장기 · 스도쿠 · 테트리스 · 리버시. 설치도 서버도 없이 브라우저에서 바로 실행." />
+  <meta property="og:title" content="games — 브라우저 게임 모음" />
+  <meta property="og:description" content="오목 · 장기 · 스도쿠 · 테트리스 · 리버시" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="./icon-192.png" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>" />
 </head>
 <body>
   <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
+  <script type="module" src="/src/hub/main.tsx"></script>
 </body>
 </html>
