@@ -1,0 +1,1 @@
+import{d as o,R as a,e as t,w as n}from"./pwa-CXxx_Qf7.js";const r=s=>`${a}:${s}:progress`;function g(s,e){n(r(s),{label:e,at:Date.now()})}function i(s){t(r(s))}function u(s){return o(r(s),null)}export{i as c,u as g,g as s};
