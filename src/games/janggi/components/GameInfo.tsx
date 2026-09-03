@@ -2,7 +2,7 @@ import { useGameStore, lastMoveOf, capturesFrom } from '../stores/gameStore';
 import { Player, PieceType } from '../game/types';
 import { materialScore, notate } from '../game/board';
 import { isInCheck } from '../game/moves';
-import { PIECE_NAME } from './Board';
+import { pieceName } from './Board';
 
 const CHARS: Record<PieceType, { han: string; cho: string }> = {
   general: { han: '漢', cho: '楚' },
@@ -110,7 +110,7 @@ export function GameInfo() {
             <span key={moves.length - i}>
               <span className="text-stone-500">{moves.length - i}.</span>{' '}
               <span className={m.player === 'cho' ? 'text-red-300/80' : 'text-blue-300/80'}>
-                {m.pass ? '한 수 쉼' : `${PIECE_NAME[m.type]} ${notate(m.from)}→${notate(m.to)}${m.captured ? `(${PIECE_NAME[m.captured]} 잡음)` : ''}`}
+                {m.pass ? '한 수 쉼' : `${pieceName(m.type, m.player)} ${notate(m.from)}→${notate(m.to)}${m.captured ? `(${pieceName(m.captured, m.player === 'cho' ? 'han' : 'cho')} 잡음)` : ''}`}
               </span>
             </span>
           ))}
@@ -118,7 +118,7 @@ export function GameInfo() {
       )}
       {last && (
         <p className="sr-only" aria-live="polite">
-          최근 수 {PIECE_NAME[last.type]} {notate(last.from)}에서 {notate(last.to)}
+          최근 수 {pieceName(last.type, last.player)} {notate(last.from)}에서 {notate(last.to)}
         </p>
       )}
 

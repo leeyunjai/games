@@ -20,10 +20,16 @@ const CHARS: Record<string, { han: string; cho: string }> = {
   soldier: { han: '卒', cho: '兵' },
 };
 
-export const PIECE_NAME: Record<string, string> = {
+const BASE_NAME: Record<string, string> = {
   general: '궁', guard: '사', elephant: '상', horse: '마',
   chariot: '차', cannon: '포', soldier: '졸',
 };
+
+/** 기보 표기용 이름. 졸(卒)은 한, 병(兵)은 초를 가리킨다. */
+export function pieceName(type: string, player?: 'han' | 'cho'): string {
+  if (type === 'soldier') return player === 'cho' ? '병' : '졸';
+  return BASE_NAME[type] ?? type;
+}
 
 function px(col: number) { return PAD + col * CS; }
 function py(row: number) { return PAD + row * CS; }
