@@ -1,40 +1,90 @@
-import { useGameStore } from '../stores/gameStore';
+import { useGameStore, lastMoveOf } from '../stores/gameStore';
+import { coordLabel } from './Board';
+import { PieceColor } from '../game/types';
+
+const DIFF_LABEL = { easy: '쉬움', normal: '중간', hard: '어려움' } as const;
+
+function StoneDot({ color, size = 14 }: { color: PieceColor; size?: number }) {
+  return (
+    <span
+      aria-hidden
+      style={{
+        width: size, height: size, borderRadius: '50%', display: 'inline-block',
+        background: color === 'black'
+          ? 'radial-gradient(circle at 35% 30%,#666,#111 70%)'
+          : 'radial-gradient(circle at 35% 30%,#fff,#cdc5ad 75%)',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.6)',
+      }}
+    />
+  );
+}
 
 export function GameInfo() {
-  const { currentPlayer, status, winner, aiThinking, moveCount, goToMenu, undoMove, history } = useGameStore();
+  const currentPlayer = useGameStore(s => s.currentPlayer);
+  const status = useGameStore(s => s.status);
+  const aiThinking = useGameStore(s => s.aiThinking);
+  const moves = useGameStore(s => s.moves);
+  const mode = useGameStore(s => s.mode);
+  const difficulty = useGameStore(s => s.difficulty);
+  const playerColor = useGameStore(s => s.playerColor);
+  const sound = useGameStore(s => s.sound);
+  const showCoords = useGameStore(s => s.showCoords);
+  const setPref = useGameStore(s => s.setPref);
+  const undoMove = useGameStore(s => s.undoMove);
+  const restart = useGameStore(s => s.restart);
+
+  const last = lastMoveOf(moves);
+  const myTurn = mode === 'vs-human' || currentPlayer === playerColor;
+
+  const turnText = mode === 'vs-ai'
+    ? (myTurn ? '내 차례' : 'AI 차례')
+    : (currentPlayer === 'black' ? '흑 차례' : '백 차례');
+
   return (
-    <div className="bg-stone-800 rounded-xl p-4 text-amber-100 text-sm space-y-3">
-      {status === 'playing' && (
+    <div className="rounded-2xl px-4 py-3 text-amber-100 text-sm"
+      style={{ background: 'rgba(32,24,14,0.85)', border: '1px solid rgba(217,164,60,0.22)', backdropFilter: 'blur(6px)' }}>
+      <div className="flex items-center gap-3 flex-wrap">
         <div className="flex items-center gap-2">
-          <span className="text-stone-400">차례:</span>
-          <span className={currentPlayer==='black'?'text-stone-300 font-bold':'text-amber-100 font-bold'}>
-            {currentPlayer==='black'?'● 검은':'○ 흰'}
-          </span>
-          {aiThinking && <span className="text-amber-500 text-xs animate-pulse">AI 생각 중…</span>}
+          <StoneDot color={currentPlayer} size={16} />
+          <span className="font-bold">{turnText}</span>
+          {aiThinking && <span className="text-amber-500 text-xs animate-pulse">계산 중…</span>}
         </div>
-      )}
-      {status === 'ended' && winner && (
-        <div className="text-center py-2">
-          <div className="text-2xl mb-1">🌟</div>
-          <div>
-            <span className={winner==='black'?'text-stone-300':'text-amber-100'}>
-              {winner==='black'?'검은 돌':'흰 돌'}
-            </span>
-            <span className="text-amber-200"> 승리!</span>
-          </div>
+
+        <div className="ml-auto flex items-center gap-3 text-xs text-amber-600">
+          <span>{mode === 'vs-ai' ? `AI · ${DIFF_LABEL[difficulty]}` : '2인 대국'}</span>
+          <span>{moves.length}수</span>
+          {last && <span>최근 {coordLabel(last)}</span>}
         </div>
-      )}
-      <div className="text-stone-400 text-xs">수: {moveCount}</div>
-      <div className="flex gap-2 pt-1">
-        <button onClick={goToMenu}
-          className="flex-1 py-2 bg-stone-700 hover:bg-stone-600 text-amber-200 rounded-lg text-xs transition-colors">
-          메뉴
+      </div>
+
+      <div className="flex gap-2 mt-3">
+        <button onClick={undoMove} disabled={!moves.length || aiThinking}
+          className="flex-1 py-2 rounded-lg bg-stone-700/80 hover:bg-stone-600 text-amber-200 text-xs font-semibold transition-colors disabled:opacity-30 disabled:cursor-not-allowed focus-ring">
+          ↩ 무르기
         </button>
-        <button onClick={undoMove} disabled={!history.length || aiThinking || status!=='playing'}
-          className="flex-1 py-2 bg-stone-700 hover:bg-stone-600 text-amber-200 rounded-lg text-xs transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
-          무르기 ↩
+        <button onClick={restart} disabled={aiThinking}
+          className="flex-1 py-2 rounded-lg bg-stone-700/80 hover:bg-stone-600 text-amber-200 text-xs font-semibold transition-colors disabled:opacity-30 focus-ring">
+          ⟳ 새 대국
+        </button>
+        <button onClick={() => setPref({ sound: !sound })}
+          aria-pressed={sound}
+          title={sound ? '소리 끄기' : '소리 켜기'}
+          className="px-3 py-2 rounded-lg bg-stone-700/80 hover:bg-stone-600 text-amber-200 text-xs transition-colors focus-ring">
+          {sound ? '🔊' : '🔈'}
+        </button>
+        <button onClick={() => setPref({ showCoords: !showCoords })}
+          aria-pressed={showCoords}
+          title={showCoords ? '좌표 숨기기' : '좌표 표시'}
+          className="px-3 py-2 rounded-lg bg-stone-700/80 hover:bg-stone-600 text-amber-200 text-xs transition-colors focus-ring">
+          {showCoords ? '#' : '#̶'}
         </button>
       </div>
+
+      {status === 'playing' && (
+        <p className="mt-2 text-[11px] text-amber-700/80 hidden sm:block">
+          방향키로 커서 이동 · Enter 착수 · U 무르기 · N 새 대국
+        </p>
+      )}
     </div>
   );
 }

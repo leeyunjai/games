@@ -4,8 +4,59 @@
 
 * { box-sizing: border-box; }
 
+html, body { height: 100%; }
+
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
-  background-color: #1c1917;
+  font-family: system-ui, -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  background-color: #0a0602;
+  color: #f5e7c8;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+/* 키보드 포커스만 뚜렷하게 */
+.focus-ring:focus-visible,
+.board-svg:focus-visible {
+  outline: 2px solid #fbbf24;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+.board-svg:focus { outline: none; }
+
+/* 돌이 놓일 때 */
+@keyframes stone-drop {
+  from { transform: scale(0.55); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+.stone-in { animation: stone-drop 0.14s ease-out; transform-origin: center; }
+
+@keyframes win-pulse {
+  0%, 100% { opacity: 0.25; }
+  50%      { opacity: 0.7; }
+}
+.win-pulse { animation: win-pulse 1s ease-in-out infinite; }
+
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+.fade-in { animation: fade-in 0.16s ease-out; }
+
+@keyframes pop-in {
+  from { transform: translateY(10px) scale(0.96); opacity: 0; }
+  to   { transform: translateY(0) scale(1);       opacity: 1; }
+}
+.pop-in { animation: pop-in 0.2s cubic-bezier(.34,1.4,.64,1); }
+
+/* 가로로 넓은 화면에서는 보드 옆에 정보 패널 */
+@media (min-width: 900px) and (orientation: landscape) {
+  .landscape-row { flex-direction: row; align-items: stretch; }
+  .landscape-row .info-pane { width: 280px; display: flex; align-items: flex-end; }
+  .landscape-row .info-pane > * { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
